@@ -20,8 +20,21 @@ module.exports = {
 
   output: {
     path: PATHS.dist,
-    filename: `${PATHS.assets}js/[name].js`,
+    filename: `${PATHS.assets}js/[name].[hash].js`,
     publicPath: "/"
+  },
+
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          name: 'vendors',
+          test: /node_modules/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    }
   },
 
   module: {
@@ -47,7 +60,7 @@ module.exports = {
             loader: "postcss-loader",
             options: {
               sourceMap: true,
-              config: { path: `${PATHS.src}/js/postcss.config.js` }
+              config: { path: './js/postcss.config.js' }
             }
           }
         ]
@@ -67,7 +80,7 @@ module.exports = {
             loader: "postcss-loader",
             options: {
               sourceMap: true,
-              config: { path: `${PATHS.src}/js/postcss.config.js` }
+              config: { path: './js/postcss.config.js' }
             }
           },
           {
@@ -98,31 +111,27 @@ module.exports = {
 
       //Loading fonts
       {
-        test: /\.(ttf|otf|eot|woof|woof2)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "fonts",
-              name: "[name].[ext]"
-            }
-          }
-        ]
+        test: /\.(woof(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file-loader",
+        options: {
+          name: "[name].[ext]"
+        }
       }
     ]
   },
 
   plugins: [
     new MiniCssExtractPlugin({
-      filename: `${PATHS.assets}css/[name].css`
+      filename: `${PATHS.assets}css/[name].[hash].css`
     }),
     new HtmlWebpackPlugin({
-      hash: false,
       template: `${PATHS.src}/index.html`,
-      filename: './index.html'
+      filename: './index.html',
+      inject: false
     }),
     new CopyWebpackPlugin([
-      { from: `${PATHS.src}/img`, to: `${PATHS.assets}img` }
+      { from: `${PATHS.src}/${PATHS.assets}img`, to: `${PATHS.assets}img` },
+      { from: `${PATHS.src}/${PATHS.assets}fonts`, to: `${PATHS.assets}fonts` }
     ])
   ]
 };

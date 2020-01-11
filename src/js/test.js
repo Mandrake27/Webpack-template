@@ -1,8 +1,10 @@
-import React from "react";
-import "../css/main.css";
+import React, { Component } from "react";
+import "../assets/css/main.css";
 
-const App = () => (
-  <img src="/assets/img/husky.jpg" />
-);
+class App extends Component {
+  render() {
+    return <h1>Hello World!</h1>;
+  }
+}
 
 export default App;
