@@ -14,7 +14,7 @@ module.exports = {
     paths: PATHS
   },
 
-  entry: `${PATHS.src}/js/index.js`,
+  entry: `${PATHS.src}/index.js`,
 
   output: {
     path: PATHS.dist,
@@ -44,7 +44,7 @@ module.exports = {
         loader: "babel-loader",
         options: {
           presets: [
-              "@babel/presen-env",
+              "@babel/preset-env",
               "@babel/react",
             {
               plugins: ["@babel/plugin-proposal-class-properties"],
@@ -125,6 +125,15 @@ module.exports = {
         }
       }
     ]
+  },
+
+  resolve: {
+    alias: {
+      components: path.resolve(__dirname, `${PATHS.src}/components`),
+      store: path.resolve(__dirname, `${PATHS.src}/store`),
+      assets: path.resolve(__dirname, `${PATHS.src}/assets`),
+    },
+    extensions: ['.js', '.css', '.scss']
   },
 
   plugins: [
