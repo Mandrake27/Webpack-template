@@ -14,9 +14,7 @@ module.exports = {
     paths: PATHS
   },
 
-  entry: {
-    app: PATHS.src
-  },
+  entry: `${PATHS.src}/js/index.js`,
 
   output: {
     path: PATHS.dist,
@@ -43,7 +41,16 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: "babel-loader",
+        options: {
+          presets: [
+              "@babel/presen-env",
+              "@babel/react",
+            {
+              plugins: ["@babel/plugin-proposal-class-properties"],
+            }
+          ]
+        }
       },
 
       // Loading CSS
